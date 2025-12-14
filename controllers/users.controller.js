@@ -37,3 +37,16 @@ exports.getUserById = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+exports.getAllUsers = async (_, res) => {
+  try {
+    const users = await User.find();
+    if (!users) {
+      return res.status(404).json({ message: "Users are unavailable" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
