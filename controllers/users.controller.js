@@ -19,3 +19,21 @@ exports.createUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// Find the user by Id
+exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    if (error.kind === "ObjectId") {
+      return res.status(400).json("Invalid user Id");
+    }
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
